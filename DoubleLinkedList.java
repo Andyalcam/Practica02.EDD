@@ -5,7 +5,6 @@ public class DoubleLinkedList<T> implements TDAList<T>{
     private Node head;
     private Node tail;
     private int size;
-    Iterator<Node> iterator;
 
     /**
      * Inserta un nuevo elemento <i>e</i> en la posición <i>i</i>.
@@ -37,17 +36,27 @@ public class DoubleLinkedList<T> implements TDAList<T>{
                 tail = head;
             }
             nuevo.setNext(head);
+            nuevo.setPrevious(null);
+            head.setPrevious(nuevo);
             head = nuevo;
             size++;
             return;
         }
 
+        //Si se desea agregar al final
+        if(i == size){
+            nuevo.setPrevious(tail);
+            tail.setNext(nuevo);
+            tail = nuevo;
+            size++;
+            return;
+        }
+
         //Si el indice es menor a la mitad del tamaño de la lista y se agrega en cualquier posicion
-        if(i <= (size)/2){
+        if(i<=size/2){
             Node iterador = head;
-            for(int j = 0; j < i ; j++){
+            for(int j = 0; j < i-1; j++)
                 iterador = iterador.getNext();
-            }
             nuevo.setNext(iterador.getNext());
             nuevo.setPrevious(iterador);
             iterador.setNext(nuevo);
@@ -59,8 +68,10 @@ public class DoubleLinkedList<T> implements TDAList<T>{
         //Si el indice es menor a la mitad del tamaño de la lista y se agrega en cualquier posicion
         if(i > size/2){
             Node iterador=tail;
+
             for(int j = 0; j < i-1 ; j++)
                 iterador = iterador.getPrevious();
+
             nuevo.setNext(iterador.getNext());
             nuevo.setPrevious(iterador);
             iterador.setNext(nuevo);
@@ -78,6 +89,7 @@ public class DoubleLinkedList<T> implements TDAList<T>{
     public void clear() {
         head = null;
         tail = null;
+        size = 0;
     }
 
     /**
@@ -109,6 +121,10 @@ public class DoubleLinkedList<T> implements TDAList<T>{
         if( i < 0 || i > size){
             throw new IndexOutOfBoundsException();
         }
+        if(isEmpty()){
+            return null;
+        }
+
         if(i == 0){
             return head.getElement();
         }
@@ -118,7 +134,7 @@ public class DoubleLinkedList<T> implements TDAList<T>{
 
         Node iterator = head;
 
-        for(int j = 1; j < i; j++){
+        for(int j = 0; j < i; j++){
             iterator = iterator.getNext();
         }
         return iterator.getElement();
@@ -146,7 +162,30 @@ public class DoubleLinkedList<T> implements TDAList<T>{
      */
     @Override
     public T remove(int i) throws IndexOutOfBoundsException {
-        return null;
+        if(i < 0 || i > size ){
+            throw new IndexOutOfBoundsException();
+        }
+        if(i == 0){
+            T element = head.getElement();
+            head = head.getNext();
+            head.getNext().setPrevious(head);
+            return element;
+        }
+        if(i == size-1){
+            T element = tail.getElement();
+            tail = tail.getPrevious();
+            tail.setNext(null);
+            tail.getPrevious().setNext(tail);
+            return element;
+        }
+        Node iterator = head;
+        for(int j = 1; j <= i; j++){
+            iterator = iterator.getNext();
+        }
+        iterator.getPrevious().setNext(iterator.getNext());
+        iterator.getNext().setPrevious(iterator.getPrevious());
+
+        return iterator.getElement();
     }
 
     /**
@@ -165,6 +204,19 @@ public class DoubleLinkedList<T> implements TDAList<T>{
     @Override
     public void revert() {
 
+        DoubleLinkedList doubleLinkedList = new DoubleLinkedList();
+
+        Node aux = tail;
+        while(aux != null){
+            doubleLinkedList.add(0, aux.getElement());
+            aux = aux.getPrevious();
+        }
+        clear();
+        for(int j = 0; j < doubleLinkedList.size(); j++){
+            add(0, (T) doubleLinkedList.get(j));
+        }
+        //System.out.println(doubleLinkedList.toString());
+
     }
 
     /**
@@ -176,8 +228,23 @@ public class DoubleLinkedList<T> implements TDAList<T>{
      * @return una nueva lista con la mitad de los elementos.
      */
     @Override
-    public TDAList cut(boolean side) {
-        return null;
+    public DoubleLinkedList cut(boolean side) {
+
+        DoubleLinkedList doubleLinkedList = new DoubleLinkedList();
+
+        if(side){
+            Node aux = tail;
+            for(int i = size/2; i < size; i++){
+                doubleLinkedList.add(0, aux.getElement());
+                aux = aux.getPrevious();
+            }
+        }else{
+            for(int i = 0; i < size/2; i++){
+                doubleLinkedList.add(i, this.get(i));
+            }
+        }
+
+        return doubleLinkedList;
     }
 
     /**
