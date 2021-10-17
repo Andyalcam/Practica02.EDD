@@ -55,7 +55,7 @@ public class Main{
 									in.next();
 								}catch(IndexOutOfBoundsException e){
 									System.out.println("\t"+e+" Debes ingresar un numero dentro del rango\n\tIntentalo de nuevo");
-									on.next();
+									in.next();
 								}catch(NullPointerException e){
 									System.out.println("\t"+e+" Ocurrio un error\n\tIntentalo de nuevo");
 									in.next();
@@ -64,23 +64,27 @@ public class Main{
 					break;
 					// Eliminar una cadena de la lista
 					case 2: repetir=true;
-							do{
-								try{
-									System.out.print("¿En que posicion esta el elemento a eliminar?: ");
-									indice = in.nextInt();
-									lista.remove(indice);
-									repetir=false;
-								}catch(InputMismatchException e){
-									System.out.println("\t"+e+" Debes ingresar un numero\n\tIntentalo de nuevo");
-									in.next();
-								}catch(IndexOutOfBoundsException e){
-									System.out.println("\t"+e+" Debes ingresar un numero dentro del rango\n\tIntentalo de nuevo");
-									on.next();
-								}catch(NullPointerException e){
-									System.out.println("\t"+e+" Ocurrio un error\n\tIntentalo de nuevo");
-									in.next();
-								}
-							}while(repetir);
+							if(!lista.isEmpty()){
+								do{
+									try{
+										System.out.print("¿En que posicion esta el elemento a eliminar?: ");
+										indice = in.nextInt();
+										lista.remove(indice);
+										repetir=false;
+									}catch(InputMismatchException e){
+										System.out.println("\t"+e+" Debes ingresar un numero\n\tIntentalo de nuevo");
+										in.next();
+									}catch(IndexOutOfBoundsException e){
+										System.out.println("\t"+e+" Debes ingresar un numero dentro del rango\n\tIntentalo de nuevo");
+										on.next();
+									}catch(NullPointerException e){
+										System.out.println("\t"+e+" Ocurrio un error\n\tIntentalo de nuevo");
+										in.next();
+									}
+								}while(repetir);
+							}else{
+								System.out.println("No hay elementos en la lista que se puedan borrar");
+							}
 					break;
 					// Eliminar de la lista
 					case 3: lista.clear();
@@ -116,7 +120,29 @@ public class Main{
 							}while(repetir);
 					break;
 					// Verificar si la lista es vacía
-					case 6:
+					case 6: if(lista.isEmpty()){
+								System.out.println("La lista es vacia");
+							}else{
+								System.out.println("La lista no esta vacia");
+							}
+					break;
+					// Obtener la longitud de la lista
+					case 7: System.out.println("La lista tiene un tamaño de: "+lista.size());
+					break;
+					// Obtener la reversa de la lista
+					case 8: lista.revert();
+							System.out.println("La lista en reversa es: "+lista.toString());
+					break;
+					// Cortar la lista
+					case 9: System.out.println("¿Que mitad quieres cortar?\t¿Derecha o izquierda?");
+							cadena = on.nextLine();
+							if(cadena.equalsIgnoreCase("Derecha")){
+								lista.cut(true);
+							}else if(cadena.equalsIgnoreCase("izquierda")){
+								lista.cut(false);
+							}else{
+								System.out.println("Debes escribir derecha o izquierda");
+							}
 					break;
 					// Partidas registradas
 					case 10:
