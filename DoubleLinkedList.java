@@ -176,36 +176,44 @@ public class DoubleLinkedList<T> implements TDAList<T>{
         if(i < 0 || i > size ){
             throw new IndexOutOfBoundsException();
         }
+        // Eliminar la cabeza
         if(i == 0){
             T element = head.getElement();
-            head = head.getNext();
-            head.getNext().setPrevious(head);
+            if(size == 1){
+                head = null;
+            }else{
+                head = head.getNext();
+                head.getNext().setPrevious(head);
+            }
+            size--;
             return element;
-        }
-        if(i == size-1){
+        }else if(i == size-1){ // Eliminar la cola
             T element = tail.getElement();
             tail = tail.getPrevious();
             tail.setNext(null);
             tail.getPrevious().setNext(tail);
+            size--;
             return element;
-        }
-        Node aux;
-        if(i <= size/2){
-            aux = head;
-            for(int j = 0; j < i; j++){
-                aux = aux.getNext();
-            }
         }else{
-            aux = tail;
-            for(int j = size; j > i+1; j--){
-                aux = aux.getPrevious();
+            Node aux;
+            if(i <= size/2){
+                aux = head;
+                for(int j = 0; j < i; j++){
+                    aux = aux.getNext();
+                }
+            }else{
+                aux = tail;
+                for(int j = size; j > i+1; j--){
+                    aux = aux.getPrevious();
+                }
             }
+
+            aux.getPrevious().setNext(aux.getNext());
+            aux.getNext().setPrevious(aux.getPrevious());
+
+            size--;
+            return aux.getElement();
         }
-
-        aux.getPrevious().setNext(aux.getNext());
-        aux.getNext().setPrevious(aux.getPrevious());
-
-        return aux.getElement();
     }
 
     /**
