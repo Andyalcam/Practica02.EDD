@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import java.util.InputMismatchException;
-import java.io.*;
-import java.net.*;
+
+
 /**
 * Programa Menu para el manejo de una lista doblemente ligada
 * @author Andrea Alvarado Camacho
@@ -11,14 +11,11 @@ import java.net.*;
 public class Main{
 	public static void main(String []args){
 		// Colores de letra
-		String black="\033[30m"; 
 	   	String red="\033[31m"; 
 	   	String green="\033[32m"; 
-	   	String yellow="\033[33m"; 
-	   	String blue="\033[34m"; 
+	   	String yellow="\033[33m";
 	   	String purple="\033[35m"; 
-	   	String cyan="\033[36m"; 
-	   	String white="\033[37m"; 
+	   	String cyan="\033[36m";
 	   	// Reset
 	   	String reset="\u001B[0m";
 

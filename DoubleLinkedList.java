@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class DoubleLinkedList<T> implements TDAList<T>{
 
@@ -181,6 +182,8 @@ public class DoubleLinkedList<T> implements TDAList<T>{
             T element = head.getElement();
             if(size == 1){
                 head = null;
+            }else if(size == 2){
+                head = tail;
             }else{
                 head = head.getNext();
                 head.getNext().setPrevious(head);
@@ -189,9 +192,13 @@ public class DoubleLinkedList<T> implements TDAList<T>{
             return element;
         }else if(i == size-1){ // Eliminar la cola
             T element = tail.getElement();
-            tail = tail.getPrevious();
-            tail.setNext(null);
-            tail.getPrevious().setNext(tail);
+            if(size == 2){
+                tail = head;
+            }else{
+                tail = tail.getPrevious();
+                tail.setNext(null);
+                tail.getPrevious().setNext(tail);
+            }
             size--;
             return element;
         }else{
@@ -270,6 +277,8 @@ public class DoubleLinkedList<T> implements TDAList<T>{
             }
         }
 
+
+
         return doubleLinkedList;
     }
 
@@ -280,7 +289,8 @@ public class DoubleLinkedList<T> implements TDAList<T>{
      */
     @Override
     public Iterator listIterador() {
-        return null;
+        DoubleLinkedListIterator doubleLinkedListIterator = new DoubleLinkedListIterator();
+        return doubleLinkedListIterator;
     }
 
     /**
@@ -302,27 +312,16 @@ public class DoubleLinkedList<T> implements TDAList<T>{
         return "La lista es vacía";
     }
 
-    private class Node{
+    private class Node {
 
         private T element;
         private Node next;
         private Node previous;
 
-        public Node(T element){
+        public Node(T element) {
             this.element = element;
             next = null;
             previous = null;
-        }
-
-        public Node(T element, Node next, Node previous){
-            this.element = element;
-            this.next = next;
-            this.previous = previous;
-        }
-
-
-        public void setElement(T element) {
-            this.element = element;
         }
 
         public void setNext(Node next) {
@@ -337,16 +336,55 @@ public class DoubleLinkedList<T> implements TDAList<T>{
             return previous;
         }
 
-        public Node getNext(){
+        public Node getNext() {
             return next;
         }
 
-        public T getElement(){
+        public T getElement() {
             return element;
         }
 
+    }
 
+    class DoubleLinkedListIterator implements Iterator<T>{
 
+        Node nodeIterator;
+
+        public DoubleLinkedListIterator(){
+            nodeIterator = head;
+        }
+
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
+        @Override
+        public boolean hasNext() {
+            if(nodeIterator.getNext().getElement() != null){
+                return true;
+            }
+            return false;
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
+         */
+        @Override
+        public T next() {
+            try{
+                nodeIterator = nodeIterator.getNext();
+            }catch(NoSuchElementException e){
+                throw new NoSuchElementException(("No hay más elementos"));
+            }
+
+            return nodeIterator.getElement();
+        }
     }
 
 
