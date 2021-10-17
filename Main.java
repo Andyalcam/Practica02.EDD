@@ -42,10 +42,10 @@ public class Main{
 				switch(opc){
 					// Agregar una cadena a la lista
 					case 1: repetir=true;
-							do{
+							System.out.print("Cadena a agregar: ");
+							cadena = on.nextLine();
+							do{	
 								try{
-									System.out.print("Cadena a agregar: ");
-									cadena = on.nextLine();
 									System.out.print("¿En que posicion lo quieres agregar?: ");
 									indice = in.nextInt();
 									lista.add(indice,cadena);
@@ -55,10 +55,6 @@ public class Main{
 									in.next();
 								}catch(IndexOutOfBoundsException e){
 									System.out.println("\t"+e+" Debes ingresar un numero dentro del rango\n\tIntentalo de nuevo");
-									in.next();
-								}catch(NullPointerException e){
-									System.out.println("\t"+e+" Ocurrio un error\n\tIntentalo de nuevo");
-									in.next();
 								}
 							}while(repetir);
 					break;
@@ -76,10 +72,6 @@ public class Main{
 										in.next();
 									}catch(IndexOutOfBoundsException e){
 										System.out.println("\t"+e+" Debes ingresar un numero dentro del rango\n\tIntentalo de nuevo");
-										on.next();
-									}catch(NullPointerException e){
-										System.out.println("\t"+e+" Ocurrio un error\n\tIntentalo de nuevo");
-										in.next();
 									}
 								}while(repetir);
 							}else{
@@ -91,33 +83,37 @@ public class Main{
 							System.out.println("Ahora la lista esta vacia");
 					break;
 					// Verificar si un elemento esta en la lista
-					case 4: System.out.print("¿Cual es el elemento que quieres verificar?: ");
-							cadena = on.nextLine();
-							if(lista.contains(cadena)){
-								System.out.println("El elemento si esta contenido en la lista");
+					case 4: if(!lista.isEmpty()){
+								System.out.print("¿Cual es el elemento que quieres verificar?: ");
+								cadena = on.nextLine();
+								if(lista.contains(cadena)){
+									System.out.println("El elemento si esta contenido en la lista");
+								}else{
+									System.out.println("El elemento no esta contenido en la lista");
+								}
 							}else{
-								System.out.println("El elemento no esta contenido en la lista");
+								System.out.println("No hay elementos en la lista");
 							}
 					break;
 					// Obtener un elemento de la lista
 					case 5: repetir=true;
-							do{
-								try{
-									System.out.print("¿En que posicion esta el elemento a obtener?: ");
-									indice = in.nextInt();
-									System.out.println(lista.get(indice));
-									repetir=false;
-								}catch(InputMismatchException e){
-									System.out.println("\t"+e+" Debes ingresar un numero\n\tIntentalo de nuevo");
-									in.next();
-								}catch(IndexOutOfBoundsException e){
-									System.out.println("\t"+e+" Debes ingresar un numero dentro del rango\n\tIntentalo de nuevo");
-									on.next();
-								}catch(NullPointerException e){
-									System.out.println("\t"+e+" Ocurrio un error\n\tIntentalo de nuevo");
-									in.next();
-								}
-							}while(repetir);
+							if(!lista.isEmpty()){
+								do{
+									try{
+										System.out.print("¿En que posicion esta el elemento a obtener?: ");
+										indice = in.nextInt();
+										System.out.println(lista.get(indice));
+										repetir=false;
+									}catch(InputMismatchException e){
+										System.out.println("\t"+e+" Debes ingresar un numero\n\tIntentalo de nuevo");
+										in.next();
+									}catch(IndexOutOfBoundsException e){
+										System.out.println("\t"+e+" Debes ingresar un numero dentro del rango\n\tIntentalo de nuevo");
+									}
+								}while(repetir);
+							}else{
+								System.out.println("No hay elementos en la lista");
+							}
 					break;
 					// Verificar si la lista es vacía
 					case 6: if(lista.isEmpty()){
@@ -134,17 +130,26 @@ public class Main{
 							System.out.println("La lista en reversa es: "+lista.toString());
 					break;
 					// Cortar la lista
-					case 9: System.out.println("¿Que mitad quieres cortar?\t¿Derecha o izquierda?");
-							cadena = on.nextLine();
-							if(cadena.equalsIgnoreCase("Derecha")){
-								lista.cut(true);
-							}else if(cadena.equalsIgnoreCase("izquierda")){
-								lista.cut(false);
+					case 9: repetir = true;
+							if(!lista.isEmpty()){
+								do{
+									System.out.println("¿Que mitad quieres cortar?\t¿Derecha o izquierda?");
+									cadena = on.nextLine();
+									if(cadena.equalsIgnoreCase("Derecha")){
+										lista.cut(true);
+										repetir = false;
+									}else if(cadena.equalsIgnoreCase("izquierda")){
+										lista.cut(false);
+										repetir = false;
+									}else{
+										System.out.println("Debes escribir derecha o izquierda\n");
+									}
+								}while(repetir);
 							}else{
-								System.out.println("Debes escribir derecha o izquierda");
+								System.out.println("La lista es vacia, no se puede cortar");
 							}
 					break;
-					// Partidas registradas
+					// Mostrar la lista
 					case 10:
 							System.out.println(lista.toString());
 					break;
