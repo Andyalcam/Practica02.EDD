@@ -45,17 +45,17 @@ public class Main{
 				System.out.println("10. Mostrar la lista");
 				System.out.println("11. Salir del menu");
 				System.out.println("--------------------------------------------");
-				System.out.print("Ingresa una opcion del menu: ");
+				System.out.println("Ingresa una opcion del menu: ");
 				opc = in.nextInt();
 
 				switch(opc){
 					// Agregar una cadena a la lista
 					case 1: repetir=true;
-							System.out.print("Cadena a agregar: ");
+							System.out.println("Cadena a agregar: ");
 							cadena = on.nextLine();
 							do{	
 								try{
-									System.out.print("¿En que posicion lo quieres agregar?: ");
+									System.out.println("¿En que posicion lo quieres agregar?: ");
 									indice = in.nextInt();
 									lista.add(indice,cadena);
 									// Se agrego el elemento 
@@ -74,7 +74,7 @@ public class Main{
 							if(!lista.isEmpty()){
 								do{
 									try{
-										System.out.print("¿En que posicion esta el elemento a eliminar?: ");
+										System.out.println("¿En que posicion esta el elemento a eliminar?: ");
 										indice = in.nextInt();
 										System.out.println(red +"\n\tEl elemento " + lista.remove(indice) + " se elimino de la lista" + reset);
 										repetir=false;
@@ -100,7 +100,7 @@ public class Main{
 					break;
 					// Verificar si un elemento esta en la lista
 					case 4: if(!lista.isEmpty()){
-								System.out.print("¿Cual es el elemento que quieres verificar?: ");
+								System.out.println("¿Cual es el elemento que quieres verificar?: ");
 								cadena = on.nextLine();
 								if(lista.contains(cadena)){
 									System.out.println(green + "\n\tEl elemento si esta contenido en la lista" + reset);
@@ -116,7 +116,7 @@ public class Main{
 							if(!lista.isEmpty()){
 								do{
 									try{
-										System.out.print("¿En que posicion esta el elemento a obtener?: ");
+										System.out.println("¿En que posicion esta el elemento a obtener?: ");
 										indice = in.nextInt();
 										System.out.println(green + "\n\tEl elemento es: " + lista.get(indice) + reset);
 										repetir=false;
