@@ -1,6 +1,12 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+* DoubleLinkedList.
+* @author Andrea Alvarado Camacho
+* @author Alfonso Mondragon Segoviano
+* @version 1.0
+*/
 public class DoubleLinkedList<T> implements TDAList<T>{
 
     private Node head;
@@ -312,54 +318,87 @@ public class DoubleLinkedList<T> implements TDAList<T>{
         return "La lista es vacía";
     }
 
+    /**
+     * Clase Node que nos ayuda a manejar los datos en la lista
+     * doblemente ligada
+     */
     private class Node {
 
         private T element;
         private Node next;
         private Node previous;
 
+        /**
+         * Constructor para la clase
+         * @param element elemento de tipo generico que tendra como netx y previous 
+         * otro elemento de tipo nodo
+         */ 
         public Node(T element) {
             this.element = element;
             next = null;
             previous = null;
         }
 
+        /**
+         * Asigna un nodo siguiente
+         * @param netx elemento que sera asignado
+         */ 
         public void setNext(Node next) {
             this.next = next;
         }
 
+        /**
+         * Asigna un nodo anterior
+         * @param previous elemento que sera asignado
+         */ 
         public void setPrevious(Node previous) {
             this.previous = previous;
         }
 
+        /**
+         * Regresa un nodo anterior
+         * @return el nodo anterior
+         */ 
         public Node getPrevious() {
             return previous;
         }
 
+        /**
+         * Regresa un nodo siguiente
+         * @return el nodo siguiente
+         */ 
         public Node getNext() {
             return next;
         }
 
+        /**
+         * Regresa el elemento del nodo
+         * @return el elemento generico que almacena el nodo
+         */ 
         public T getElement() {
             return element;
         }
 
     }
 
+    /**
+     * Clase que implementa la interfaz Iterator
+     */
     class DoubleLinkedListIterator implements Iterator<T>{
 
         Node nodeIterator;
 
+        /**
+         * Constructor por omision
+         */
         public DoubleLinkedListIterator(){
             nodeIterator = head;
         }
 
         /**
-         * Returns {@code true} if the iteration has more elements.
-         * (In other words, returns {@code true} if {@link #next} would
-         * return an element rather than throwing an exception.)
+         * Verifica si hay mas elementos
          *
-         * @return {@code true} if the iteration has more elements
+         * @return true si hay mas elementos o false en otro caso
          */
         @Override
         public boolean hasNext() {
@@ -370,10 +409,10 @@ public class DoubleLinkedList<T> implements TDAList<T>{
         }
 
         /**
-         * Returns the next element in the iteration.
+         * Regresa el siguiente elemento en el iterador
          *
-         * @return the next element in the iteration
-         * @throws NoSuchElementException if the iteration has no more elements
+         * @return elemento siguiente
+         * @throws NoSuchElementException Si el iterador ya no tiene mas elementos
          */
         @Override
         public T next() {
